@@ -40,31 +40,31 @@ class App:
             'msg_transformation_error': "An error occurred during transformation:",
         },
         'zh': {
-            'window_title': "[中文] Code Obfuscator",
-            'options_frame_title': "[中文] Options",
-            'var_simplify_label': "[中文] Variable Simplification:",
-            'var_simplify_short_radio': "[中文] Short Names (<=5 chars)",
-            'var_simplify_pinyin_radio': "[中文] Pinyin Initials",
-            'var_simplify_none_radio': "[中文] None",
-            'disrupt_format_check': "[中文] Disrupt Code Format",
-            'add_redundant_check': "[中文] Add Redundant Code",
-            'transform_button_text': "[中文] Transform Code",
-            'transform_button_processing_text': "[中文] Processing...",
-            'menu_color_schemes': "[中文] Color Schemes",
-            'menu_language': "[中文] Language",
-            'lang_english': "[中文] English",
-            'lang_chinese': "[中文] Chinese",
-            'color_scheme_default': "[中文] Default Light",
-            'color_scheme_dark': "[中文] Dark Mode",
-            'color_scheme_blue': "[中文] Ocean Blue",
-            'msg_enter_code': "[中文] Please enter some code in the original code text area.",
-            'msg_applying_simplification': "[中文] Applying variable simplification (Mode: {mode})...",
-            'msg_applying_formatting': "[中文] Applying format disruption (Level: {level})...",
-            'msg_adding_redundant': "[中文] Adding redundant code (Level: {level})...",
-            'msg_transformed_code_header': "[中文] --- Transformed Code ---",
-            'msg_error_header': "[中文] --- ERROR ---",
-            'msg_transformer_unavailable': "[中文] Error: Transformation functions could not be imported.\n{error}",
-            'msg_transformation_error': "[中文] An error occurred during transformation:",
+            'window_title': "AI橡皮擦",
+            'options_frame_title': "设置",
+            'var_simplify_label': "变量名简化:",
+            'var_simplify_short_radio': "缩写 (<=5 个字符)",
+            'var_simplify_pinyin_radio': "拼音首字母",
+            'var_simplify_none_radio': "无",
+            'disrupt_format_check': "乱糟糟的代码风格",
+            'add_redundant_check': "添加无用但不影响功能的代码",
+            'transform_button_text': "开始转换！",
+            'transform_button_processing_text': "正在转换...",
+            'menu_color_schemes': "主题",
+            'menu_language': "语言",
+            'lang_english': "English",
+            'lang_chinese': "中文",
+            'color_scheme_default': "默认白",
+            'color_scheme_dark': "深色",
+            'color_scheme_blue': "浅蓝色",
+            'msg_enter_code': "请在此输入想要转换的代码",
+            'msg_applying_simplification': "正在简化变量名 (模式: {mode})...",
+            'msg_applying_formatting': "正在打乱码风 (级别: {level})...",
+            'msg_adding_redundant': "正在添加冗余代码 (级别: {level})...",
+            'msg_transformed_code_header': "--- 转换后代码 ---",
+            'msg_error_header': "[中文] --- 错误 ---",
+            'msg_transformer_unavailable': "错误：转换失败\n{error}",
+            'msg_transformation_error': "在转换中出现了错误",
         }
     }
     # Define Color Palettes
@@ -103,7 +103,7 @@ class App:
 
     def __init__(self, root):
         self.root = root
-        self.current_language = 'en' # Default language
+        self.current_language = 'zh' # Default language
         self.ui_text = self.APP_TEXT[self.current_language]
 
         root.title(self.ui_text['window_title'])
