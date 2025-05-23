@@ -69,15 +69,18 @@ class VariableRenamer(ast.NodeTransformer):
         new_name = ""
         if self.name_generation_mode == "Short":
             length = random.randint(1, 5)
-            # First char must be a letter or underscore
+            # First char can be an uppercase or lowercase letter, or an underscore.
             first_char = random.choice(string.ascii_letters + "_")
-            rest_chars = [random.choice(string.ascii_letters + string.digits + "_") for _ in range(length - 1)]
+            # Subsequent alphabetic characters must be lowercase. Digits and underscores are also allowed.
+            rest_chars = [random.choice(string.ascii_lowercase + string.digits + "_") for _ in range(length - 1)]
             new_name = first_char + "".join(rest_chars)
             # Ensure uniqueness and validity
             while new_name in self.used_new_names or not new_name.isidentifier():
                 length = random.randint(1, 5)
+                # First char can be an uppercase or lowercase letter, or an underscore.
                 first_char = random.choice(string.ascii_letters + "_")
-                rest_chars = [random.choice(string.ascii_letters + string.digits + "_") for _ in range(length - 1)]
+                # Subsequent alphabetic characters must be lowercase. Digits and underscores are also allowed.
+                rest_chars = [random.choice(string.ascii_lowercase + string.digits + "_") for _ in range(length - 1)]
                 new_name = first_char + "".join(rest_chars)
         
         elif self.name_generation_mode == "Pinyin":
@@ -345,11 +348,27 @@ class _LeadingUnderscoreClass:
         print(f"Original: {name:<20} -> Pinyin: {generated}")
 
     renamer_short = VariableRenamer(name_generation_mode="Short")
-    print("\nShort name generation tests (first 5):")
+    print("\nShort name generation tests (first 5 with assertions):")
     for i in range(5):
-        generated = renamer_short._generate_new_name(f"original_name_{i}")
-        print(f"Original: original_name_{i} -> Short: {generated}")
-        renamer_short.used_new_names.add(generated) # to simulate usage
+        original_test_name = f"original_Test_Name_{i}" # Use a name that has uppercase to ensure it's not influencing
+        generated = renamer_short._generate_new_name(original_test_name)
+        print(f"Original: {original_test_name} -> Short: {generated}")
+
+        assert len(generated) > 0, "Generated name should not be empty"
+        
+        first_char = generated[0]
+        assert first_char.isascii() or first_char == '_', f"First char '{first_char}' in '{generated}' is not ASCII or underscore."
+        if first_char.isalpha():
+            # No specific assertion for first char case as it can be upper or lower.
+            pass
+
+        if len(generated) > 1:
+            for char_idx in range(1, len(generated)):
+                char = generated[char_idx]
+                assert char.islower() or char.isdigit() or char == '_', \
+                       f"Subsequent char '{char}' (at index {char_idx}) in '{generated}' is not lowercase, digit, or underscore."
+        
+        renamer_short.used_new_names.add(generated) # Add to used names for subsequent test iterations
 
     # Test for arg type nodes (e.g. type hints) not being processed as Name nodes for renaming
     type_hint_code = """
